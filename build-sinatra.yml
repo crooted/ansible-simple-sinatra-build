@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  
+  vars_files:
+    - "{{ playbook_dir }}/vars/main.yml"
+    
+  tasks:
+    - name: Docker login to ECR Registry
+      shell: aws ecr get-login-password --region {{ aws_region }} | docker login --username AWS --password-stdin {{ ecr_image_name }}
+    - name: Build the image and push it to ECR Registry
+      docker_image: 
+        build:
+          path: ./sinatra
+        name: "{{ ecr_image_name }}"
+        tag: v1
+        push: yes
+        source: build
