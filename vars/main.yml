@@ -1,3 +1,5 @@
+# Details of the registry where the docker image will be stored
+
 #AWS Region where the ECR is present
 aws_region: ap-southeast-2
 
